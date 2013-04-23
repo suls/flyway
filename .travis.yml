@@ -3,3 +3,4 @@ jdk:
   - oraclejdk7
   - openjdk6
 install: "mvn install -P-MediumTests -DskipTests=true"
+script: "mvn test -P-MediumTests"
