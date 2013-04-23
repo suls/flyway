@@ -19,7 +19,7 @@ resolvers += (
 
 seq(flywaySettings: _*)
 
-flywayUrl := "jdbc:hsqldb:file:target/flyway_sample;shutdown=true"
+flywayUrl := "jdbc:hsqldb:file:db/flyway_sample;shutdown=true"
 
 flywayUser := "SA"
 
