@@ -2,5 +2,6 @@ language: java
 jdk:
   - oraclejdk7
   - openjdk6
+env: M2_HOME=/usr
 install: "mvn install -P-MediumTests -DskipTests=true"
 script: "mvn test -P-MediumTests"
