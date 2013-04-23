@@ -28,9 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Large Test for the Flyway Maven Plugin.
@@ -106,7 +104,7 @@ public class MavenLargeTest {
      * @throws Exception When the execution failed.
      */
     private String runMaven(int expectedReturnCode, String dir, String... extraArgs) throws Exception {
-        String m2Home = System.getenv("M2_HOME");
+        String m2Home = getM2HomeOrFail();
         String flywayVersion = System.getProperty("flywayVersion", getPomVersion());
 
         String extension = "";
@@ -133,6 +131,20 @@ public class MavenLargeTest {
         assertEquals("Unexpected return code", expectedReturnCode, returnCode);
 
         return stdOut;
+    }
+
+    /**
+     * Reads M2_HOME from env. If it can't be found or is empty the test will fail.
+     *
+     * @return The path for M2_HOME
+     */
+    private String getM2HomeOrFail() {
+        String m2Home = System.getenv("M2_HOME");
+        if(m2Home == null || m2Home.isEmpty()) {
+            fail("M2_HOME not defined!");
+        }
+
+        return m2Home;
     }
 
     /**
