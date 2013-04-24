@@ -17,6 +17,7 @@ package com.googlecode.flyway.commandline.largetest;
 
 import com.googlecode.flyway.core.util.ClassPathResource;
 import com.googlecode.flyway.core.util.FileCopyUtils;
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
@@ -29,8 +30,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+
 
 /**
  * Large Test for the Flyway Command-Line Tool.
@@ -39,26 +43,26 @@ public abstract class CommandLineLargeTest {
     @Test
     public void showUsage() throws Exception {
         String stdOut = runFlywayCommandLine(0, null, null);
-        assertTrue(stdOut.contains("* Usage"));
+        assertThat(stdOut, containsString("* Usage"));
     }
 
     @Test
     public void migrateWithCustomLocations() throws Exception {
         String stdOut = runFlywayCommandLine(0, "largeTest.properties", "migrate", "-locations=filesystem:" + new File(getInstallDir()).getAbsolutePath() + "/sql/migrations");
-        assertTrue(stdOut.contains("Successfully applied 1 migration"));
+        assertThat(stdOut, containsString("Successfully applied 1 migration"));
     }
 
     @Test
     public void exitCodeForFailedMigration() throws Exception {
         String stdOut = runFlywayCommandLine(1, "largeTest.properties", "migrate", "-locations=filesystem:" + new File(getInstallDir()).getAbsolutePath() + "/sql/invalid");
-        assertTrue(stdOut.contains("Migration of schema \"PUBLIC\" to version 1 failed!"));
+        assertThat(stdOut, containsString("Migration of schema \"PUBLIC\" to version 1 failed!"));
     }
 
     @Test
     public void sqlFolderRoot() throws Exception {
         String stdOut = runFlywayCommandLine(0, null, "migrate", "-user=SA", "-url=jdbc:hsqldb:mem:flyway_db", "-driver=org.hsqldb.jdbcDriver", "-sqlMigrationPrefix=Mig");
-        assertTrue(stdOut.contains("777"));
-        assertTrue(stdOut.contains("Successfully applied 1 migration"));
+        assertThat(stdOut, containsString("777"));
+        assertThat(stdOut, containsString("Successfully applied 1 migration"));
     }
 
     /**

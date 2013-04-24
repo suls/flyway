@@ -17,6 +17,8 @@ package com.googlecode.flyway.commandline.largetest;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -37,6 +39,6 @@ public class CommandLineDistWithSpringLargeTest extends CommandLineLargeTest {
     @Test
     public void migrate() throws Exception {
         String stdOut = runFlywayCommandLine(0, "largeTest.properties", "migrate");
-        assertTrue(stdOut.contains("Successfully applied 4 migrations"));
+        assertThat(stdOut, containsString("Successfully applied 4 migrations"));
     }
 }
